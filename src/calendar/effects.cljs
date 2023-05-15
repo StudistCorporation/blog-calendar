@@ -1,4 +1,4 @@
-(ns advent.effects
+(ns calendar.effects
   (:require [re-frame.core :as rf]
             [cognitect.transit :as t]))
 
@@ -28,7 +28,7 @@
            (.stopPropagation e)))))))
 
 (def local-storage-key
-  "personal-advent-2022")
+  "personal-calendar-2022-TODO")
 
 (def persist
   (rf/after

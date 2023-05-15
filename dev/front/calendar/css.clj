@@ -1,4 +1,4 @@
-(ns advent.css
+(ns calendar.css
   (:require [clojure.java.io :as io]
             [shadow.css.build :as cb]
             [shadow.cljs.devtools.server.fs-watch :as fs-watch]))
@@ -9,7 +9,7 @@
 (defn generate-css []
   (let [result
         (-> @css-ref
-            (cb/generate '{:ui {:include [advent*]}})
+            (cb/generate '{:ui {:include [calendar*]}})
             (cb/write-outputs-to (io/file "public" "css")))]
     (binding [*out* (io/writer (System/out))]
       (prn [:CSS] :generated)
@@ -18,6 +18,10 @@
         (prn [:CSS] (name warning-type) (dissoc warning :warning-type)))
       (println))))
 
+(defn src-folder
+  []
+  (io/file "src" "calendar"))
+
 (defn watch
   {:shadow/requires-server true}
   []
@@ -25,7 +29,7 @@
   ;; first initialize my css
   (reset! css-ref
           (-> (cb/start)
-              (cb/index-path (io/file "src" "advent") {})))
+              (cb/index-path (src-folder) {})))
 
   ;; then build it once
   (generate-css)
@@ -34,7 +38,7 @@
   (reset! css-watch-ref
           (fs-watch/start
            {}
-           [(io/file "src" "advent")]
+           [(src-folder)]
            ["cljs"]
            (fn [updates]
              (try
@@ -60,7 +64,7 @@
 (defn build []
   (reset! css-ref
           (-> (cb/start)
-              (cb/index-path (io/file "src" "advent") {})))
+              (cb/index-path (src-folder) {})))
 
   ;; then build it once
   (generate-css))

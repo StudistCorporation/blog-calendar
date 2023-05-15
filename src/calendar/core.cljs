@@ -1,8 +1,8 @@
-(ns advent.core
+(ns calendar.core
   (:require [reagent.dom]
             [re-frame.core :as rf]
-            [advent.events :as events]
-            [advent.views :as views]))
+            [calendar.events :as events]
+            [calendar.views :as views]))
 
 (defn ^:dev/after-load remount
   []

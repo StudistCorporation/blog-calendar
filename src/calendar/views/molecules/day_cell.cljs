@@ -1,9 +1,9 @@
-(ns advent.molecules.day-cell
+(ns calendar.views.molecules.day-cell
   (:require [shadow.css :refer [css]]
             [re-frame.core :refer [dispatch subscribe]]
             ["@tabler/icons" :refer [IconPencil IconPlus]]
-            [advent.events :as events]
-            [advent.subs :as subs]))
+            [calendar.events :as events]
+            [calendar.subs :as subs]))
 
 (def $day
   (css {:border "1px solid rgba(140, 130, 115, 0.12)"}))
@@ -25,7 +25,7 @@
 (def $other-day
   (css {:background "#2a2d2f"}))
 
-(def $advent-day
+(def $calendar-day
   (css {}
        [:hover
         {:background "#1d2021"}]
@@ -75,18 +75,18 @@
   (css {:margin "auto"}))
 
 (defn day-cell
-  [advent? n]
+  [calendar? n]
   [:td
    {:key (gensym)
-    :class [$day (if advent?
-                   $advent-day
+    :class [$day (if calendar?
+                   $calendar-day
                    $other-day)]}
    [:div
     {:class [$day-wrap]}
     [:header
      {:class [$date]}
      (str n)]
-    (when advent?
+    (when calendar?
       (if-let [{:keys [title calendar-url :post-url]} @(subscribe [::subs/day n])]
         [:div
          {:class [$day-detail]}

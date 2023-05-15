@@ -1,6 +1,6 @@
-(ns advent.organisms.calendar
+(ns calendar.views.organisms.calendar
   (:require [shadow.css :refer [css]]
-            [advent.molecules.day-cell :refer [day-cell]]))
+            [calendar.views.molecules.day-cell :refer [day-cell]]))
 
 (def $table
   (css {:margin "auto"

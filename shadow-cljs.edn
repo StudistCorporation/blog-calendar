@@ -1,15 +1,15 @@
 {:nrepl {:port 8777}
 
- :source-paths ["dev" "src" "test"]
+ :source-paths ["dev/front" "src" "test"]
 
  :dependencies
- [[reagent "1.1.1"]
+ [[reagent "1.2.0"]
   [re-frame "1.3.0"]
   [com.cognitect/transit-cljs "0.8.280"]
 
-  [com.thheller/shadow-css "0.4.0"]
+  [com.thheller/shadow-css "0.4.4"]
   [binaryage/devtools "1.0.6"]
-  [clj-kondo "2022.10.14"]]
+  [clj-kondo "2023.04.14"]]
 
  :dev-http
  {8280 "public"
@@ -21,7 +21,7 @@
    :output-dir "public/js"
    :asset-path "/js"
    :modules
-   {:app {:init-fn advent.core/init}}
+   {:app {:init-fn calendar.core/init}}
    :devtools
    {:preloads []}
    :dev

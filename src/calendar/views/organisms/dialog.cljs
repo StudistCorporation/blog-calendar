@@ -1,8 +1,8 @@
-(ns advent.organisms.dialog
+(ns calendar.views.organisms.dialog
   (:require [shadow.css :refer [css]]
             [re-frame.core :refer [dispatch subscribe]]
-            [advent.events :as events]
-            [advent.subs :as subs]))
+            [calendar.events :as events]
+            [calendar.subs :as subs]))
 
 (def $dialog
   (css {:background "#181a1b"

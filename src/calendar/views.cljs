@@ -1,8 +1,8 @@
-(ns advent.views
+(ns calendar.views
   (:require [shadow.css :refer [css]]
-            [advent.atoms.git-link :refer [git-link]]
-            [advent.organisms.calendar :refer [calendar]]
-            [advent.organisms.dialog :refer [dialog]]))
+            [calendar.views.atoms.git-link :refer [git-link]]
+            [calendar.views.organisms.calendar :refer [calendar]]
+            [calendar.views.organisms.dialog :refer [dialog]]))
 
 (def $main
   (css {:background "#181a1b"

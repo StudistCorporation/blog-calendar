@@ -1,6 +1,6 @@
-(ns advent.dev
+(ns calendar.dev
   (:require [shadow.cljs.devtools.api :as shadow]
-            [advent.css :as css]))
+            [calendar.css :as css]))
 
 (defn watch
   {:shadow/requires-server true}

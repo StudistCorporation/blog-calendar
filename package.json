@@ -1,16 +1,16 @@
 {
-  "name": "personal-advent",
-  "version": "1.1.0",
+  "name": "community-calendar",
+  "version": "0.1.0",
   "scripts": {
-    "dev": "yarn && yarn clean && shadow-cljs run advent.dev/watch",
-    "build": "yarn clean && shadow-cljs release app && shadow-cljs run advent.css/build",
+    "dev": "yarn && yarn clean && shadow-cljs run calendar.dev/watch",
+    "build": "yarn clean && shadow-cljs release app && shadow-cljs run calendar.css/build",
     "test": "shadow-cljs compile karma-test && karma start --single-run --reporters junit,dots",
     "report": "shadow-cljs run shadow.cljs.build-report app report.html",
     "lint": "shadow-cljs run clj-kondo.main --lint src",
     "clean": "rm -rf public/js public/css target"
   },
   "devDependencies": {
-    "shadow-cljs": "2.20.7",
+    "shadow-cljs": "2.23.3",
     "karma": "6.3.11",
     "karma-chrome-launcher": "3.1.0",
     "karma-cljs-test": "0.1.0",

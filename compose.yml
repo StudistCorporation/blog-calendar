@@ -1,0 +1,31 @@
+version: '3'
+services:
+  api:
+    image: clojure:temurin-20-lein-2.10.0
+    working_dir: /usr/local/calendar/api
+    ports:
+      - 42001:42001
+    volumes:
+      - .:/usr/local/calendar/api
+      - api_maven:/root/.m2
+    command: lein repl :headless :host 0.0.0.0 :port 42001
+
+  frontend:
+    build:
+      context: ./dev
+      dockerfile: node_java.Dockerfile
+    working_dir: /usr/local/calendar/front
+    ports:
+      - 8280:8280
+      - 8290:8290
+      - 9630:9630
+    volumes:
+      - .:/usr/local/calendar/front
+      - shadow_maven:/root/.m2
+      - node_modules:/usr/local/node_modules
+    command: yarn dev
+
+volumes:
+  api_maven:
+  shadow_maven:
+  node_modules:

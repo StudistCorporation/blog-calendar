@@ -1,4 +1,4 @@
-(ns advent.atoms.git-link
+(ns calendar.views.atoms.git-link
   (:require [shadow.css :refer [css]]
             ["@tabler/icons" :refer [IconBrandGithub]]))
 
@@ -21,7 +21,7 @@
    [:a
     {:class [$link-a]
      :title "Source code available on Github"
-     :href "https://github.com/valerauko/personal-advent"}
+     :href "https://github.com/valerauko/community-calendar"}
     [IconBrandGithub
      {:size 32
       :stroke 2

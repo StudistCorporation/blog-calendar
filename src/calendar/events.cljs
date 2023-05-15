@@ -1,6 +1,6 @@
-(ns advent.events
+(ns calendar.events
   (:require [re-frame.core :as rf]
-            [advent.effects :as fx]))
+            [calendar.effects :as fx]))
 
 (rf/reg-event-fx
  ::initialize-db
