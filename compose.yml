@@ -4,6 +4,7 @@ services:
     image: clojure:temurin-20-lein-2.10.0
     working_dir: /usr/local/calendar/api
     ports:
+      - 3000:3000
       - 42001:42001
     volumes:
       - .:/usr/local/calendar/api
