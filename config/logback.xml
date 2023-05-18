@@ -9,6 +9,9 @@
     </encoder>
   </appender>
 
+  <logger name="io.netty" level="warn" />
+  <logger name="i.n.buffer" level="warn" />
+
   <root level="DEBUG">
     <appender-ref ref="stdout" />
   </root>
