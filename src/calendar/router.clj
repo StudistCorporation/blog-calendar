@@ -1,11 +1,27 @@
 (ns calendar.router
-  (:require [reitit.ring :as ring]
+  (:require [muuntaja.core :as muuntaja]
+            [reitit.coercion.malli :as coercion]
+            [reitit.ring :as ring]
+            [reitit.ring.coercion :refer [coerce-request-middleware
+                                          coerce-response-middleware]]
+            [reitit.ring.middleware.parameters :refer [parameters-middleware]]
+            [reitit.ring.middleware.muuntaja :refer [format-negotiate-middleware
+                                                     format-response-middleware
+                                                     format-request-middleware]]
             [calendar.handlers.html :as html]
-            [calendar.routes :refer [routes]]))
+            [calendar.routes :refer [routes]]
+            [calendar.wrappers.logging :refer [wrap-logging]]))
 
 (def handler
   (ring/ring-handler
-   (ring/router routes)
+   (ring/router
+    routes
+    {:data
+     {:muuntaja (muuntaja/create (merge muuntaja/default-options
+                                        {:return :bytes}))
+      :coercion (coercion/create {})
+      :middleware
+      [wrap-logging]}})
    (ring/routes
     (ring/create-resource-handler {:path "" :root ""})
     (ring/create-default-handler
