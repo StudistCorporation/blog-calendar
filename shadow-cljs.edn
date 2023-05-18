@@ -1,6 +1,6 @@
 {:nrepl {:port 8777}
 
- :source-paths ["dev/front" "src" "test"]
+ :source-paths ["dev/web" "src" "test"]
 
  :dependencies
  [[reagent "1.2.0"]
