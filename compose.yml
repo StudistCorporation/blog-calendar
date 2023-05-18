@@ -11,17 +11,17 @@ services:
       - api_maven:/root/.m2
     command: lein repl :headless :host 0.0.0.0 :port 42001
 
-  frontend:
+  web:
     build:
       context: ./dev
       dockerfile: node_java.Dockerfile
-    working_dir: /usr/local/calendar/front
+    working_dir: /usr/local/calendar/web
     ports:
       - 8280:8280
       - 8290:8290
       - 9630:9630
     volumes:
-      - .:/usr/local/calendar/front
+      - .:/usr/local/calendar/web
       - shadow_maven:/root/.m2
       - node_modules:/usr/local/node_modules
     command: yarn dev
