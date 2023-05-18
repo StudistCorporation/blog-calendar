@@ -1,6 +1,7 @@
 version: '3'
 services:
   api:
+    container_name: api
     image: clojure:temurin-20-lein-2.10.0
     working_dir: /usr/local/calendar/api
     ports:
@@ -12,6 +13,7 @@ services:
     command: lein repl :headless :host 0.0.0.0 :port 42001
 
   web:
+    container_name: web
     build:
       context: ./dev
       dockerfile: node_java.Dockerfile
