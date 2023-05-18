@@ -12,7 +12,7 @@
         :font "normal normal 16px/1.5em sans-serif"
         :height "100vh"
         :display "flex"
-        :flex-flow "row no-wrap"
+        :flex-flow "column nowrap"
         :align-items "center"}))
 
 (defn main
