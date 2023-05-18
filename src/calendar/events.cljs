@@ -5,9 +5,8 @@
 
 (rf/reg-event-fx
  ::initialize-db
- [(rf/inject-cofx ::fx/persisted)]
  (fn [{:keys [persisted]}]
-   {:db {:days persisted}}))
+   {:db {}}))
 
 (rf/reg-event-db
  ::navigated
@@ -37,7 +36,6 @@
 
 (rf/reg-event-fx
  ::dialog-submit
- [fx/persist]
  (fn [{db :db} [_ day e]]
    (when-let [form (.-target e)]
      (let [{:keys [title post calendar]} (-> form
@@ -49,9 +47,16 @@
                                       :calendar-url (not-empty calendar)})
         ::fx/dialog [:reset e]}))))
 
+(rf/reg-event-db
+ ::fetch-calendar
+ (fn [db _]
+   (assoc db :calendar {:comment "梅雨を乗り切ろう！"
+                        :filled {}
+                        :start "2023/06/08"
+                        :end "2023/06/16"})))
+
 (rf/reg-event-fx
  ::clear-day
- [fx/persist]
  (fn [{db :db} [_ day]]
    {:db (update db :days dissoc day)
     ::fx/dialog [:close]}))

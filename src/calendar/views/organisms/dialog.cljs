@@ -68,7 +68,7 @@
         {:background "rgb(56, 135, 0)"
          :cursor "pointer"}]))
 
-(defn dialog
+(defn view
   []
   (let [day @(subscribe [::subs/dialog-day])
         {:keys [title post-url calendar-url]} @(subscribe [::subs/day day])]

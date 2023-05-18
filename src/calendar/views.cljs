@@ -1,8 +1,10 @@
 (ns calendar.views
-  (:require [shadow.css :refer [css]]
-            [calendar.views.atoms.git-link :refer [git-link]]
-            [calendar.views.organisms.calendar :refer [calendar]]
-            [calendar.views.organisms.dialog :refer [dialog]]))
+  (:require [re-frame.core :as rf]
+            [shadow.css :refer [css]]
+            [calendar.subs :as subs]
+            [calendar.views.atoms.git-link :as git-link]
+            [calendar.views.organisms.dialog :as dialog]
+            [calendar.views.pages.not-found :as not-found]))
 
 (def $main
   (css {:background "#181a1b"
@@ -15,8 +17,12 @@
 
 (defn main
   []
-  [:div
-   {:class [$main]}
-   [calendar]
-   [dialog]
-   [git-link]])
+  (let [route @(rf/subscribe [::subs/current-route])
+        opts {:params (:parameters route)}]
+    [:div
+     {:class [$main]}
+     (if route
+       [(-> route :data :view) opts]
+       [not-found/view opts])
+     [dialog/view]
+     [git-link/view]]))

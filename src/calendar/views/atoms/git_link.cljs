@@ -14,7 +14,7 @@
 (def $link-icon
   (css {}))
 
-(defn git-link
+(defn view
   []
   [:div
    {:class [$link-wrap]}
