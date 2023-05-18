@@ -2,6 +2,7 @@ version: '3'
 services:
   api:
     container_name: api
+    env_file: .env
     image: clojure:temurin-20-lein-2.10.0
     working_dir: /usr/local/calendar/api
     ports:
