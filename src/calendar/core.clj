@@ -13,7 +13,8 @@
 (defstate http-server
   :start
   (let [options {:port 3000
-                 :compression true}]
+                 :compression true
+                 :shutdown-timeout 1}]
     (log/debug (str "API server running at :" (:port options)))
     (http/start-server router/handler options))
   :stop
