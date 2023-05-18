@@ -8,9 +8,9 @@
 
 (defstate datasource
   :start
-  (make-datasource {:jdbc-url (str "jdbc:postgresql:/"
+  (make-datasource {:jdbc-url (str "jdbc:postgresql://"
                                    (System/getenv "POSTGRES__HOST")
-                                   "//postgres")
+                                   "/postgres")
                     :username "postgres"
                     :password (str (System/getenv "POSTGRES__PASS"))})
   :stop
