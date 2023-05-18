@@ -7,7 +7,7 @@
     "test": "shadow-cljs compile karma-test && karma start --single-run --reporters junit,dots",
     "report": "shadow-cljs run shadow.cljs.build-report app report.html",
     "lint": "shadow-cljs run clj-kondo.main --lint src",
-    "clean": "rm -rf public/js public/css target"
+    "clean": "rm -rf public/js public/css"
   },
   "devDependencies": {
     "shadow-cljs": "2.23.3",
