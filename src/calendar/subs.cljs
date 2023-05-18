@@ -7,6 +7,11 @@
    (:current-route db)))
 
 (rf/reg-sub
+ ::calendar
+ (fn [db]
+   (:calendar db)))
+
+(rf/reg-sub
  ::day
  (fn [db [_ day]]
    (get-in db [:days day])))

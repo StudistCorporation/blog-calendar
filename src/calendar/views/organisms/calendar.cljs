@@ -12,10 +12,15 @@
         :color "rgba(156, 156, 156, 0.8)"
         :padding "0.5em 0"}))
 
-(defn calendar
-  []
-  (let [before (-> "2022/12/01" (js/Date.) (.getDay) (dec))
-        after (-> "2022/12/31" (js/Date.) (.getDay) (dec))]
+(defn view
+  [{:keys [comment end filled start]}]
+  (let [start-date (js/Date. start)
+        end-date (js/Date. end)
+        year (.getFullYear start-date)
+        month (.getMonth start-date)
+        first-cell (- 2 (.getDay (js/Date. year month 1)))
+        last-day (.getDate (js/Date. year month 0))
+        last-cell (+ last-day (rem last-day 7))]
     [:table
      {:class [$table]}
      [:thead
@@ -28,39 +33,15 @@
            day])
         ["月" "火" "水" "木" "金" "土" "日"])]]
      [:tbody
-      ;; first week
-      [:tr
-       {:key (gensym)}
-       ;; the days from november in the first week
-       (map
-        (fn [n]
-          [day-cell false n])
-        (range (- 31 before) 31))
-       ;; first days of december in the first week
-       (map
-        (fn [day]
-          [day-cell true day])
-        (range 1 (- 8 before)))]
-      ;; "normal" weeks
-      (->> (range (- 8 before) (- 31 after))
+      (->> (range first-cell last-cell)
            (map
             (fn [n]
-              [day-cell (< n 26) n]))
+              [day-cell
+               (<= (.getDate start-date) n (.getDate end-date))
+               (js/Date. year month n)]))
            (partition 7)
            (map
             (fn [week]
               [:tr
                {:key (gensym)}
-               week])))
-      ;; last week (if any)
-      (when-let [last-days (not-empty (range (- 31 after) 32))]
-        [:tr
-         {:key (gensym)}
-         (map
-          (fn [n]
-            [day-cell (< n 26) n])
-          last-days)
-         (map
-          (fn [n]
-            [day-cell false n])
-          (range 1 (- 7 after)))])]]))
+               week])))]]))

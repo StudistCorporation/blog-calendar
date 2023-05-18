@@ -75,7 +75,7 @@
   (css {:margin "auto"}))
 
 (defn day-cell
-  [calendar? n]
+  [calendar? date]
   [:td
    {:key (gensym)
     :class [$day (if calendar?
@@ -85,9 +85,10 @@
     {:class [$day-wrap]}
     [:header
      {:class [$date]}
-     (str n)]
+     (let [day (.getDate date)]
+       (str (when (= day 1) (str (inc (.getMonth date)) "月")) day "日"))]
     (when calendar?
-      (if-let [{:keys [title calendar-url :post-url]} @(subscribe [::subs/day n])]
+      (if-let [{:keys [title calendar-url :post-url]} @(subscribe [::subs/day nil])]
         [:div
          {:class [$day-detail]}
          [:p
@@ -112,14 +113,14 @@
           [:button
            {:class [$edit-button]
             :title "投稿予定を編集"
-            :on-click #(dispatch [::events/dialog-show n])}
+            :on-click #(dispatch [::events/dialog-show nil])}
            [:> IconPencil
             {:size 32
              :stroke 2}]]]]
         [:button
          {:class [$plus-button]
           :title "投稿予定を追加"
-          :on-click #(dispatch [::events/dialog-show n])}
+          :on-click #(dispatch [::events/dialog-show nil])}
          [:> IconPlus
           {:class [$plus-icon]
            :size 32
