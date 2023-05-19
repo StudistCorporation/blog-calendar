@@ -10,7 +10,7 @@
   :start
   (make-datasource {:jdbc-url (str "jdbc:postgresql://"
                                    (System/getenv "POSTGRES__HOST")
-                                   "/postgres")
+                                   "/postgres?currentSchema=calendar")
                     :username "postgres"
                     :password (str (System/getenv "POSTGRES__PASS"))})
   :stop
