@@ -26,7 +26,7 @@
 (defn create-migration
   [name]
   (let [base (str (now) "-" (->kebab-case-string name))
-        folder "resources/migrations/"
+        folder "config/migrations/"
         up-name (str folder base ".up.sql")
         down-name (str folder base ".down.sql")
         command "chown 1000:1000 "]
