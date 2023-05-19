@@ -40,8 +40,10 @@
    (let [callback
          (fn [result]
            (if-let [error (.-error result)]
-             (on-error {:error error})
-             (on-success (js->clj result :keywordize-keys true))))]
+             (when (fn? on-error)
+               (on-error {:error error}))
+             (when (fn? on-success)
+               (on-success (js->clj result :keywordize-keys true)))))]
      (case action
        :login
        (-> client (.-auth) (.signInWithPassword
