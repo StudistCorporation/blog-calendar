@@ -13,7 +13,7 @@
         :padding "0.5em 0"}))
 
 (defn view
-  [{:keys [comment end filled start]}]
+  [{:keys [end start]}]
   (let [start-date (js/Date. start)
         end-date (js/Date. end)
         year (.getFullYear start-date)
