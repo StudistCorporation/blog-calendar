@@ -1,8 +1,8 @@
 (ns calendar.views.molecules.day-cell
   (:require [shadow.css :refer [css]]
-            [re-frame.core :refer [dispatch subscribe]]
+            [re-frame.core :as rf]
             ["@tabler/icons" :refer [IconPencil IconPlus]]
-            [calendar.events :as events]
+            [calendar.events.dialog :as dialog]
             [calendar.subs :as subs]))
 
 (def $day
@@ -88,7 +88,8 @@
        {:class [$date]}
        (str (when (= day 1) (str (inc (.getMonth date)) "月")) day "日")]
       (when calendar?
-        (if-let [{:keys [title calendar-url post-url]} @(subscribe [::subs/day day])]
+        (if-let [{:keys [title calendar-url post-url]}
+                 @(rf/subscribe [::subs/day day])]
           [:div
            {:class [$day-detail]}
            [:p
@@ -113,15 +114,15 @@
             [:button
              {:class [$edit-button]
               :title "投稿予定を編集"
-              :on-click #(dispatch [::events/dialog-show day])}
+              :on-click #(rf/dispatch [::dialog/show day])}
              [:> IconPencil
               {:size 32
                :stroke 2}]]]]
-          (when @(subscribe [::subs/jwt])
+          (when @(rf/subscribe [::subs/jwt])
             [:button
              {:class [$plus-button]
               :title "投稿予定を追加"
-              :on-click #(dispatch [::events/dialog-show day])}
+              :on-click #(rf/dispatch [::dialog/show day])}
              [:> IconPlus
               {:class [$plus-icon]
                :size 32
