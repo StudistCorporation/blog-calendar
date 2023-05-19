@@ -3,13 +3,11 @@
 
 (rf/reg-sub
  ::current-route
- (fn [db]
-   (:current-route db)))
+ :-> :current-route)
 
 (rf/reg-sub
  ::calendar
- (fn [db]
-   (:calendar db)))
+ :-> :calendar)
 
 (rf/reg-sub
  ::day
@@ -18,7 +16,7 @@
 
 (rf/reg-sub
  ::dialog-day
- (fn [db _]
+ :-> :dialog)
 
 (rf/reg-sub
  ::jwt
