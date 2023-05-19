@@ -7,4 +7,5 @@
    :from [:users]
    :where [:and
            [:<> :status [[:user_status "disabled"]]]
-           [:= :auth-id [[:uuid uid]]]]})
+           [:= :auth-id [[:uuid uid]]]]
+   :limit 1})
