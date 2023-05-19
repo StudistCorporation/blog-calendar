@@ -7,5 +7,5 @@
   [:p
    "該当するページがありません。"
    [:a
-    {:href (href ::routes/current)}
+    {:href (href ::routes/home)}
     "ホームに戻る"]])

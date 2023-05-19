@@ -14,6 +14,11 @@
    {:db {}
     :dispatch [::refresh-authn]}))
 
+(rf/reg-event-fx
+ ::navigate-to
+ (fn [_ [_ & route]]
+   {::fx/push-state route}))
+
 (rf/reg-event-db
  ::navigated
  (fn [db [_ new-match]]
@@ -66,7 +71,7 @@
  ::login-success
  (fn [{db :db} _]
    {:db (assoc db :login-state :success)
-    ::fx/push-state [::web/current]}))
+    :dispatch [::navigate-to ::web/dashboard]}))
 
 (rf/reg-event-db
  ::login-error

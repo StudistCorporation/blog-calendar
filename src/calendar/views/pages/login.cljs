@@ -38,6 +38,8 @@
 
 (defn view
   []
+  (when @(rf/subscribe [::subs/jwt])
+    (rf/dispatch [::events/navigate-to ::web/dashboard]))
   [:div
    {:class [$column $login]}
    [:header
