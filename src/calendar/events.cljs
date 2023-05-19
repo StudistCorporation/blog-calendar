@@ -61,8 +61,18 @@
 
 (rf/reg-event-db
  ::commit-calendar
- (fn [db [_ data]]
-   (assoc db :calendar data)))
+ (fn [db [_ {:keys [calendar _days users] :as data}]]
+   (js/console.log (str data))
+   (let [old-users (:users db)
+         new-users (reduce
+                    (fn [aggr {:keys [id] :as user}]
+                      (assoc aggr id user))
+                    old-users
+                    users)]
+     (-> db
+         (assoc :calendar calendar)
+         (assoc :days {}) ;; TODO
+         (assoc :users new-users)))))
 
 (rf/reg-event-db
  ::clear-calendar
