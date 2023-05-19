@@ -6,7 +6,8 @@
 
 (def $message
   (css {:margin "auto"
-        :min-width "min-content"}))
+        :min-width "min-content"
+        :text-align "center"}))
 
 (defn view
   [_]
@@ -20,7 +21,9 @@
       {}
       [:p
        {:class $message}
-       "開催予定のカレンダーがありません。"]
+       "直近開催予定のカレンダーがありません。"
+       [:br]
+       "またきてください！"]
 
       ;; else
       [calendar/view calendar])))
