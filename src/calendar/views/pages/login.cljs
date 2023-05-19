@@ -76,5 +76,5 @@
      {:class [$actions]}
      [:button
       {:type "submit"
-       :class $button}
+       :class [$button]}
       "ログイン"]]]])

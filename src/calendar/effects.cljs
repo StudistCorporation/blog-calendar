@@ -50,6 +50,10 @@
                             (clj->js {:email (:email opts)
                                       :password (:password opts)}))
            (.then callback))
+
+       :logout
+       nil ;; TODO
+
        :refresh
        (-> client (.-auth) (.getSession)
            (.then callback))))))

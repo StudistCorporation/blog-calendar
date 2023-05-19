@@ -1,15 +1,18 @@
 (ns calendar.events
   (:require [re-frame.core :as rf]
             [reitit.frontend.controllers :as router]
+            [reitit.frontend.easy :refer [href]]
             [calendar.effects :as fx]
+            [calendar.events.http :as http]
             [calendar.interop :refer [form->map]]
+            [calendar.routes.api :as-alias api]
             [calendar.routes.web :as-alias web]))
 
 (rf/reg-event-fx
  ::initialize
  (fn [_]
    {:db {}
-    :dispatch [::refresh-session]}))
+    :dispatch [::refresh-authn]}))
 
 (rf/reg-event-db
  ::navigated
@@ -57,13 +60,12 @@
                        :email email
                        :password password
                        :on-error #(rf/dispatch [::login-error %])
-                       :on-success #(rf/dispatch [::login-success %])}}))))
+                       :on-success #(rf/dispatch [::commit-authn %])}}))))
 
 (rf/reg-event-fx
  ::login-success
- (fn [{db :db} [_ result]]
+ (fn [{db :db} _]
    {:db (assoc db :login-state :success)
-    :dispatch [::commit-session result]
     ::fx/push-state [::web/current]}))
 
 (rf/reg-event-db
@@ -86,16 +88,41 @@
     ::fx/dialog [:close]}))
 
 (rf/reg-event-fx
- ::refresh-session
+ ::refresh-authn
  (fn [_ _]
    {::fx/supabase {:action :refresh
-                   :on-success #(rf/dispatch [::commit-session %])}}))
+                   :on-success #(rf/dispatch [::commit-authn %])}}))
 
 (rf/reg-event-fx
- ::commit-session
+ ::commit-authn
  (fn [{db :db} [_ {{:keys [session]} :data}]]
-   {:db ;; TODO: update calendar user data too
+   {:db
     (-> db
         (assoc :jwt (:access_token session))
         (assoc :user-id (get-in session [:user :id]))
-        (assoc :user-email (get-in session [:user :email])))}))
+        (assoc :user-email (get-in session [:user :email])))
+    :dispatch [::refresh-session]}))
+
+(rf/reg-event-fx
+ ::refresh-session
+ (fn [_ _]
+   {:dispatch [::http/load {:path (href ::api/session)
+                            :on-success ::commit-session
+                            :on-error ::reset-session}]}))
+
+(rf/reg-event-fx
+ ::commit-session
+ (fn [{{:keys [login-state] :as db} :db} [_ data]]
+   (when (= login-state :in-progress)
+     {:dispatch [::login-success]})))
+
+(rf/reg-event-fx
+ ::reset-session
+ (fn [{{:keys [login-state] :as db} :db} _]
+   {::fx/supabase {:action :logout}
+    :dispatch (when (= login-state :in-progress)
+                [::login-error])
+    :db (-> db
+            (dissoc :jwt)
+            (dissoc :user-id)
+            (dissoc :user-email))}))
