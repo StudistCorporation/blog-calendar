@@ -22,4 +22,5 @@ public/css
 yarn-error.log
 report.html
 node_modules
+*.key
 *.pem

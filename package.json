@@ -10,13 +10,14 @@
     "clean": "rm -rf public/js public/css"
   },
   "devDependencies": {
-    "shadow-cljs": "2.23.3",
     "karma": "6.3.11",
     "karma-chrome-launcher": "3.1.0",
     "karma-cljs-test": "0.1.0",
-    "karma-junit-reporter": "2.0.1"
+    "karma-junit-reporter": "2.0.1",
+    "shadow-cljs": "2.23.3"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.22.0",
     "@tabler/icons": "1.109.0",
     "react": "17.0.2",
     "react-dom": "17.0.2"
