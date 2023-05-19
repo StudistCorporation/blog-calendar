@@ -7,6 +7,7 @@
                  [mount "0.1.17"]
                  [aleph "0.6.1"]
                  [metosin/reitit "0.6.0"]
+                 [metosin/ring-http-response "0.9.3"]
                  [hikari-cp "3.0.1"]
                  [org.postgresql/postgresql "42.6.0"]
                  [com.github.seancorfield/next.jdbc "1.3.874"]
