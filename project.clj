@@ -12,7 +12,10 @@
                  [com.github.seancorfield/next.jdbc "1.3.874"]
                  [dev.weavejester/ragtime.core "0.9.3"]
                  [dev.weavejester/ragtime.next-jdbc "0.9.3"]
-                 [com.github.seancorfield/honeysql "2.4.1026"]]
+                 [com.github.seancorfield/honeysql "2.4.1026"]
+                 [buddy/buddy-auth "3.0.323"]
+                 [buddy/buddy-hashers "1.8.158"]
+                 [buddy/buddy-sign "3.4.333"]]
   :main ^:skip-aot calendar.core
   :target-path "target/%s"
   :resource-paths ["config" "public"]
