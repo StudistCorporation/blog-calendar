@@ -21,7 +21,7 @@
    [:a
     {:class [$link-a]
      :title "Source code available on Github"
-     :href "https://github.com/valerauko/community-calendar"}
+     :href "https://github.com/StudistCorporation/blog-calendar"}
     [:> IconBrandGithub
      {:size 32
       :stroke 2
