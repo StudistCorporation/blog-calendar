@@ -52,13 +52,22 @@
  (fn [db _]
    (assoc db :login-state :error)))
 
-(rf/reg-event-db
+(rf/reg-event-fx
  ::fetch-calendar
+ (fn [_ _]
+   {:dispatch [::http/load {:path (href ::api/active-calendar)
+                            :on-success ::commit-calendar
+                            :on-error ::clear-calendar}]}))
+
+(rf/reg-event-db
+ ::commit-calendar
+ (fn [db [_ data]]
+   (assoc db :calendar data)))
+
+(rf/reg-event-db
+ ::clear-calendar
  (fn [db _]
-   (assoc db :calendar {:comment "梅雨を乗り切ろう！"
-                        :filled {}
-                        :start "2023/06/08"
-                        :end "2023/06/16"})))
+   (assoc db :calendar {})))
 
 (rf/reg-event-fx
  ::clear-day
