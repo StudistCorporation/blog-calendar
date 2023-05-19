@@ -14,6 +14,6 @@
 
 (defn ^:export init
   []
-  (rf/dispatch-sync [::events/initialize-db])
+  (rf/dispatch-sync [::events/initialize])
   (router/start-router)
   (remount))

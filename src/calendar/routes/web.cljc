@@ -6,7 +6,7 @@
                      [calendar.views.pages.calendar :as calendar]
                      ; [calendar.views.pages.dashboard :as dashboard]
                      ; [calendar.views.pages.invite :as invite]
-                     ; [calendar.views.pages.login :as login]
+                     [calendar.views.pages.login :as login]
                      ; [calendar.views.pages.register :as register]
                      ,)))
 
@@ -20,8 +20,7 @@
                  ; #?@(:cljs [:view #'dashboard/view])
                  ,}]
    ["login" {:name ::login
-             ; #?@(:cljs [:view #'login/view])
-             ,}]
+             #?@(:cljs [:view #'login/view])}]
    ["register" {:name ::register
                 ; #?@(:cljs [:view #'register/view])
                 ,}]])

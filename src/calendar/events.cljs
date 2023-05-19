@@ -1,12 +1,15 @@
 (ns calendar.events
   (:require [re-frame.core :as rf]
             [reitit.frontend.controllers :as router]
-            [calendar.effects :as fx]))
+            [calendar.effects :as fx]
+            [calendar.interop :refer [form->map]]
+            [calendar.routes.web :as-alias web]))
 
 (rf/reg-event-fx
- ::initialize-db
- (fn [{:keys [persisted]}]
-   {:db {}}))
+ ::initialize
+ (fn [_]
+   {:db {}
+    :dispatch [::refresh-session]}))
 
 (rf/reg-event-db
  ::navigated
@@ -38,14 +41,27 @@
  ::dialog-submit
  (fn [{db :db} [_ day e]]
    (when-let [form (.-target e)]
-     (let [{:keys [title post calendar]} (-> form
-                                             (js/FormData.)
-                                             (js/Object.fromEntries)
-                                             (js->clj :keywordize-keys true))]
+     (let [{:keys [title post calendar]} (form->map form)]
        {:db (assoc-in db [:days day] {:title title
                                       :post-url (not-empty post)
                                       :calendar-url (not-empty calendar)})
         ::fx/dialog [:reset e]}))))
+
+(rf/reg-event-fx
+ ::login-submit
+ (fn [_ [_ ^js/Event event]]
+   (when-let [form (.-target event)]
+     (let [{:keys [email password]} (form->map form)]
+       {::fx/supabase {:action :login
+                       :email email
+                       :password password
+                       :on-success #(rf/dispatch [::login-success %])}}))))
+
+(rf/reg-event-fx
+ ::login-success
+ (fn [_ [_ result]]
+   {:dispatch [::commit-session result]
+    ::fx/push-state [::web/current]}))
 
 (rf/reg-event-db
  ::fetch-calendar
@@ -60,3 +76,18 @@
  (fn [{db :db} [_ day]]
    {:db (update db :days dissoc day)
     ::fx/dialog [:close]}))
+
+(rf/reg-event-fx
+ ::refresh-session
+ (fn [_ _]
+   {::fx/supabase {:action :refresh
+                   :on-success #(rf/dispatch [::commit-session %])}}))
+
+(rf/reg-event-fx
+ ::commit-session
+ (fn [{db :db} [_ {{:keys [session]} :data}]]
+   {:db ;; TODO: update calendar user data too
+    (-> db
+        (assoc :jwt (:access_token session))
+        (assoc :user-id (get-in session [:user :id]))
+        (assoc :user-email (get-in session [:user :email])))}))

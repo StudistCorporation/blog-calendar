@@ -19,4 +19,7 @@
 (rf/reg-sub
  ::dialog-day
  (fn [db _]
-   (:dialog db)))
+
+(rf/reg-sub
+ ::jwt
+ :-> :jwt)
