@@ -9,3 +9,9 @@
            [:<> :status [[:user_status "disabled"]]]
            [:= :auth-id [[:uuid uid]]]]
    :limit 1})
+
+(defquery many-by-id
+  [ids]
+  {:select [:id :display-name :email-md5]
+   :from [:users]
+   :where [:in :id (vec ids)]})
