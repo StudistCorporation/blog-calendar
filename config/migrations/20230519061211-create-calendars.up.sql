@@ -4,6 +4,7 @@ create table if not exists calendars (
   created_by serial references users(id),
   title varchar not null,
   description text,
+  invitation uuid not null default gen_random_uuid(),
   first_day date not null,
   last_day date not null,
   public_day date not null,
