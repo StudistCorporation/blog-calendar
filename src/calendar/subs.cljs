@@ -11,8 +11,8 @@
 
 (rf/reg-sub
  ::filled-days
- :<- [::days]
- :-> count)
+ (fn [{:keys [days]}]
+   (count days)))
 
 (rf/reg-sub
  ::total-days
@@ -20,7 +20,7 @@
  (fn [{:keys [start end]}]
    (let [start-day (.getDate (js/Date. start))
          end-day (.getDate (js/Date. end))]
-     (- end-day start-day))))
+     (inc (- end-day start-day)))))
 
 (rf/reg-sub
  ::day
