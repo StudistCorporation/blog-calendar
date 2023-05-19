@@ -39,7 +39,6 @@
  (fn [{:keys [action on-success on-error] :as opts}]
    (let [callback
          (fn [result]
-           (js/console.log result)
            (if-let [error (.-error result)]
              (on-error {:error error})
              (on-success (js->clj result :keywordize-keys true))))]
