@@ -7,4 +7,5 @@
 (defn handler
   [_]
   {:status 200
-   :body file-body})
+   :body file-body
+   :headers {:content-type "text/html"}})
