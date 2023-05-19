@@ -4,7 +4,7 @@ create type user_status
 create table users (
   id serial primary key,
   auth_id uuid references auth.users(id),
-  email varchar not null,
+  email_md5 varchar not null,
   display_name varchar not null,
   status user_status not null default 'writer'
 );
