@@ -3,7 +3,7 @@
             ["@tabler/icons" :refer [IconBrandGithub]]))
 
 (def $link-wrap
-  (css {:position "absolute"
+  (css {:position "fixed"
         :right "0.5em"
         :bottom "0.5em"}))
 
