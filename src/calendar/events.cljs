@@ -30,32 +30,6 @@
             (assoc new-match :controllers controllers)))))
 
 (rf/reg-event-fx
- ::dialog-show
- (fn [{db :db} [_ day]]
-   {:db (assoc db :dialog day)
-    ::fx/dialog [:show]}))
-
-(rf/reg-event-fx
- ::dialog-close
- (fn [_ _]
-   {::fx/dialog [:close]}))
-
-(rf/reg-event-fx
- ::dialog-click
- (fn [_ [_ e]]
-   {::fx/dialog [:click e]}))
-
-(rf/reg-event-fx
- ::dialog-submit
- (fn [{db :db} [_ day e]]
-   (when-let [form (.-target e)]
-     (let [{:keys [title post calendar]} (form->map form)]
-       {:db (assoc-in db [:days day] {:title title
-                                      :post-url (not-empty post)
-                                      :calendar-url (not-empty calendar)})
-        ::fx/dialog [:reset e]}))))
-
-(rf/reg-event-fx
  ::login-submit
  (fn [{db :db} [_ ^js/Event event]]
    (when-let [form (.-target event)]

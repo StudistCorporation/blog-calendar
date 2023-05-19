@@ -1,7 +1,7 @@
 (ns calendar.views.organisms.dialog
   (:require [shadow.css :refer [css]]
-            [re-frame.core :refer [dispatch subscribe]]
-            [calendar.events :as events]
+            [re-frame.core :as rf]
+            [calendar.events.dialog :as dialog]
             [calendar.subs :as subs]))
 
 (def $dialog
@@ -70,13 +70,13 @@
 
 (defn view
   []
-  (let [day @(subscribe [::subs/dialog-day])
-        {:keys [title post-url calendar-url]} @(subscribe [::subs/day day])]
+  (let [day @(rf/subscribe [::subs/dialog-day])
+        {:keys [title post-url calendar-url]} @(rf/subscribe [::subs/day day])]
     [:dialog
      {:id "dialog"
       :class [$dialog]
-      :on-click #(dispatch [::events/dialog-click %])
-      :on-submit #(dispatch [::events/dialog-submit day %])}
+      :on-click #(rf/dispatch [::dialog/click %])
+      :on-submit #(rf/dispatch [::dialog/submit day %])}
      [:div
       {:class [$dialog-block]}
       [:header
@@ -109,12 +109,12 @@
         [:button
          {:type :reset
           :class [$input $button]
-          :on-click #(dispatch [::events/dialog-close])}
+          :on-click #(rf/dispatch [::dialog/close])}
          "戻る"]
         [:button
          {:type :reset
           :class [$input $button $delete]
-          :on-click #(dispatch [::events/clear-day day])}
+          :on-click #(rf/dispatch [:calendar.events/clear-day day])}
          "削除"]
         [:button
          {:type :submit
