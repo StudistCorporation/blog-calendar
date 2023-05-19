@@ -22,7 +22,7 @@
     {:class [$link-a]
      :title "Source code available on Github"
      :href "https://github.com/valerauko/community-calendar"}
-    [IconBrandGithub
+    [:> IconBrandGithub
      {:size 32
       :stroke 2
       :class [$link-icon]}]]])
