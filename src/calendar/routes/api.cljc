@@ -1,4 +1,5 @@
-(ns calendar.routes.api)
+(ns calendar.routes.api
+  #?(:clj (:require [calendar.handlers.session :as session])))
 
 (def routes
   ["/api"
@@ -6,4 +7,7 @@
    ["/calendar/:id" {:name ::calendar}]
    ["/invite"
     ["/" {:name ::invite}]
-    ["/:id" {:name ::accept}]]])
+    ["/:id" {:name ::accept}]]
+   ["/session" {:name ::session
+                :get {:scopes {:user-status :active}
+                      #?@(:clj [:handler session/handler])}}]])
