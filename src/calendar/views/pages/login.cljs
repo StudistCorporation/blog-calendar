@@ -3,6 +3,8 @@
             [shadow.css :refer [css]]
             ["@tabler/icons" :refer [IconMail IconLock]]
             [calendar.events :as events]
+            [calendar.routes.web :as-alias web]
+            [calendar.subs :as subs]
             [calendar.views.atoms.auth-field :as auth-field]))
 
 (def $column
@@ -18,6 +20,9 @@
         :font-size "1.5em"
         :line-height "1.5em"
         :margin-bottom "15px"}))
+
+(def $error
+  (css {:margin-bottom "10px"}))
 
 (def $actions
   (css {:display :flex
@@ -38,6 +43,11 @@
    [:header
     {:class [$title]}
     "ログイン"]
+   (let [login-state @(rf/subscribe [::subs/login-state])]
+     (when (= login-state :error)
+       [:p
+        {:class [$error]}
+        "ログインできませんでした。"]))
    [:form
     {:class [$column]
      :method :post

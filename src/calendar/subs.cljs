@@ -21,3 +21,7 @@
 (rf/reg-sub
  ::jwt
  :-> :jwt)
+
+(rf/reg-sub
+ ::login-state
+ :-> :login-state)

@@ -49,19 +49,27 @@
 
 (rf/reg-event-fx
  ::login-submit
- (fn [_ [_ ^js/Event event]]
+ (fn [{db :db} [_ ^js/Event event]]
    (when-let [form (.-target event)]
      (let [{:keys [email password]} (form->map form)]
-       {::fx/supabase {:action :login
+       {:db (assoc db :login-state :in-progress)
+        ::fx/supabase {:action :login
                        :email email
                        :password password
+                       :on-error #(rf/dispatch [::login-error %])
                        :on-success #(rf/dispatch [::login-success %])}}))))
 
 (rf/reg-event-fx
  ::login-success
- (fn [_ [_ result]]
-   {:dispatch [::commit-session result]
+ (fn [{db :db} [_ result]]
+   {:db (assoc db :login-state :success)
+    :dispatch [::commit-session result]
     ::fx/push-state [::web/current]}))
+
+(rf/reg-event-db
+ ::login-error
+ (fn [db _]
+   (assoc db :login-state :error)))
 
 (rf/reg-event-db
  ::fetch-calendar
