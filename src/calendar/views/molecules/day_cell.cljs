@@ -81,47 +81,47 @@
     :class [$day (if calendar?
                    $calendar-day
                    $other-day)]}
-   [:div
-    {:class [$day-wrap]}
-    [:header
-     {:class [$date]}
-     (let [day (.getDate date)]
-       (str (when (= day 1) (str (inc (.getMonth date)) "月")) day "日"))]
-    (when calendar?
-      (if-let [{:keys [title calendar-url :post-url]} @(subscribe [::subs/day nil])]
-        [:div
-         {:class [$day-detail]}
-         [:p
-          {:class [$day-title]
-           ;; shadow-css throws these away for some reason
-           :style {"display" "-webkit-box"
-                   "-webkit-box-orient" "vertical"
-                   "-webkit-line-clamp" "2"}}
-          (if post-url
-            [:a
-             {:href post-url}
-             title]
-            title)]
-         [:div
-          {:class [$day-footer]}
-          (when calendar-url
-            [:p
-             {:class [$day-calendar]}
-             [:a
-              {:href calendar-url}
-              "カレンダー"]])
+   (let [day (.getDate date)]
+     [:div
+      {:class [$day-wrap]}
+      [:header
+       {:class [$date]}
+       (str (when (= day 1) (str (inc (.getMonth date)) "月")) day "日")]
+      (when calendar?
+        (if-let [{:keys [title calendar-url :post-url]} @(subscribe [::subs/day day])]
+          [:div
+           {:class [$day-detail]}
+           [:p
+            {:class [$day-title]
+             ;; shadow-css throws these away for some reason
+             :style {"display" "-webkit-box"
+                     "-webkit-box-orient" "vertical"
+                     "-webkit-line-clamp" "2"}}
+            (if post-url
+              [:a
+               {:href post-url}
+               title]
+              title)]
+           [:div
+            {:class [$day-footer]}
+            (when calendar-url
+              [:p
+               {:class [$day-calendar]}
+               [:a
+                {:href calendar-url}
+                "カレンダー"]])
+            [:button
+             {:class [$edit-button]
+              :title "投稿予定を編集"
+              :on-click #(dispatch [::events/dialog-show day])}
+             [:> IconPencil
+              {:size 32
+               :stroke 2}]]]]
           [:button
-           {:class [$edit-button]
-            :title "投稿予定を編集"
-            :on-click #(dispatch [::events/dialog-show nil])}
-           [:> IconPencil
-            {:size 32
-             :stroke 2}]]]]
-        [:button
-         {:class [$plus-button]
-          :title "投稿予定を追加"
-          :on-click #(dispatch [::events/dialog-show nil])}
-         [:> IconPlus
-          {:class [$plus-icon]
-           :size 32
-           :stroke 3}]]))]])
+           {:class [$plus-button]
+            :title "投稿予定を追加"
+            :on-click #(dispatch [::events/dialog-show day])}
+           [:> IconPlus
+            {:class [$plus-icon]
+             :size 32
+             :stroke 3}]]))])])
