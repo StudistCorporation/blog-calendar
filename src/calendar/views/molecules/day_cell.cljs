@@ -88,7 +88,7 @@
        {:class [$date]}
        (str (when (= day 1) (str (inc (.getMonth date)) "月")) day "日")]
       (when calendar?
-        (if-let [{:keys [title calendar-url :post-url]} @(subscribe [::subs/day day])]
+        (if-let [{:keys [title calendar-url post-url]} @(subscribe [::subs/day day])]
           [:div
            {:class [$day-detail]}
            [:p
