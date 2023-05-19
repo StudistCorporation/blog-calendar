@@ -117,11 +117,12 @@
              [:> IconPencil
               {:size 32
                :stroke 2}]]]]
-          [:button
-           {:class [$plus-button]
-            :title "投稿予定を追加"
-            :on-click #(dispatch [::events/dialog-show day])}
-           [:> IconPlus
-            {:class [$plus-icon]
-             :size 32
-             :stroke 3}]]))])])
+          (when @(subscribe [::subs/jwt])
+            [:button
+             {:class [$plus-button]
+              :title "投稿予定を追加"
+              :on-click #(dispatch [::events/dialog-show day])}
+             [:> IconPlus
+              {:class [$plus-icon]
+               :size 32
+               :stroke 3}]])))])])
