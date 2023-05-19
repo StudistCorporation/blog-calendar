@@ -10,6 +10,10 @@
  :-> :calendar)
 
 (rf/reg-sub
+ ::users
+ :-> :users)
+
+(rf/reg-sub
  ::filled-days
  (fn [{:keys [days]}]
    (count days)))
@@ -23,6 +27,13 @@
      (inc (- end-day start-day)))))
 
 (rf/reg-sub
+ ::calendar-author
+ :<- [::calendar]
+ :<- [::users]
+ (fn [[{:keys [created-by]} users] _]
+   (get users created-by)))
+
+(rf/reg-sub
  ::day
  (fn [db [_ day]]
    (get-in db [:days day])))
@@ -30,6 +41,11 @@
 (rf/reg-sub
  ::dialog-day
  :-> :dialog)
+
+(rf/reg-sub
+ ::user
+ (fn [db [_ id]]
+   (get-in db [:users id])))
 
 (rf/reg-sub
  ::jwt
