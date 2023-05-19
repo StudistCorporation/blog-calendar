@@ -7,13 +7,14 @@
             [calendar.views.pages.not-found :as not-found]))
 
 (def $main
-  (css {:background "#181a1b"
+  (css {:align-items "center"
+        :background "#181a1b"
         :color "#9c9c9c"
-        :font "normal normal 16px/1.5em sans-serif"
-        :height "100vh"
         :display "flex"
         :flex-flow "column nowrap"
-        :align-items "center"}))
+        :font "normal normal 16px/1.5em sans-serif"
+        :min-height "100vh"
+        :padding-bottom "30px"}))
 
 (defn main
   []
