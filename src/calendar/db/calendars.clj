@@ -3,7 +3,7 @@
 
 (defquery active
   []
-  {:select [:*]
+  {:select [:title :description :created-by :first-day :last-day]
    :from [:calendars]
    :where [:and
            [:<= :public-day :current_date]
