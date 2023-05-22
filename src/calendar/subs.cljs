@@ -48,6 +48,10 @@
    (get-in db [:users id])))
 
 (rf/reg-sub
+ ::current-user
+ :-> :current-user)
+
+(rf/reg-sub
  ::jwt
  :-> :jwt)
 

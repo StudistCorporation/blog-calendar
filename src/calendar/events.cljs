@@ -97,8 +97,7 @@
    {:db
     (-> db
         (assoc :jwt (:access_token session))
-        (assoc :user-id (get-in session [:user :id]))
-        (assoc :user-email (get-in session [:user :email])))
+        (assoc :current-user (select-keys (:user session) [:email :id])))
     :dispatch [::refresh-session]}))
 
 (rf/reg-event-fx
@@ -111,8 +110,9 @@
 (rf/reg-event-fx
  ::commit-session
  (fn [{{:keys [login-state] :as db} :db} [_ data]]
-   (when (= login-state :in-progress)
-     {:dispatch [::login-success]})))
+   {:db (update db :current-user #(merge % data))
+    :dispatch (when (= login-state :in-progress)
+                [::login-success])}))
 
 (rf/reg-event-fx
  ::reset-session
@@ -122,5 +122,4 @@
                 [::login-error])
     :db (-> db
             (dissoc :jwt)
-            (dissoc :user-id)
-            (dissoc :user-email))}))
+            (dissoc :current-user))}))
