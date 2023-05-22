@@ -53,19 +53,26 @@
               `(~dummy-args#
                 (~name calendar.db.core/datasource ~@dummy-args#)))
            ([datasource# ~@args]
-            (try
-              (let [start# (System/nanoTime)
-                    sql-dsl# (do ~@body)
-                    text# (sql/format
-                           sql-dsl#
-                           {:checking :strict
-                            :quoted-snake true})
-                    result# (next.jdbc/execute!
-                             datasource#
-                             text#
-                             {:builder-fn as-kebab-maps})]
-                (log/debug (format "%.3fms" (/ (- (System/nanoTime) start#) 1000000.0))
-                           (pr-str text#))
-                (if (= 1 (:limit sql-dsl#))
-                  (first result#)
-                  result#)))))))))
+            (let [start# (System/nanoTime)
+                  sql-dsl# (do ~@body)
+                  text# (sql/format
+                         sql-dsl#
+                         {:checking :strict
+                          ;; DB側の型や関数名は引き続きアンスコ
+                          :quoted-snake true})]
+              (try
+                (let [result# (next.jdbc/execute!
+                               datasource#
+                               text#
+                               {:builder-fn as-kebab-maps})]
+                  (log/debug (format "%.3fms" (/ (- (System/nanoTime) start#) 1000000.0))
+                             (pr-str text#))
+                  (if (= 1 (:limit sql-dsl#))
+                    (first result#)
+                    result#))
+                (catch Throwable ex#
+                  (log/error
+                   ex#
+                   (format "%.3fms" (/ (- (System/nanoTime) start#) 1000000.0))
+                   (pr-str text#))
+                  (throw ex#))))))))))
