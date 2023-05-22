@@ -1,5 +1,6 @@
 (ns calendar.db.core
-  (:require [clojure.tools.logging :as log]
+  (:require [clojure.string :as str]
+            [clojure.tools.logging :as log]
             [mount.core :refer [defstate]]
             [hikari-cp.core :refer [make-datasource close-datasource]]
             [honey.sql :as sql]
@@ -15,6 +16,18 @@
                     :password (str (System/getenv "POSTGRES__PASS"))})
   :stop
   (close-datasource datasource))
+
+(defn convert_-
+  [input]
+  (str/replace input "_" "-"))
+
+(defn as-kebab-maps
+  "->kebab-case inserts a - between letters and numbers, which is undersirable
+   eg it converts md5 to md-5"
+  [rs opts]
+  (rs/as-modified-maps rs (assoc opts
+                                 :qualifier-fn convert_-
+                                 :label-fn convert_-)))
 
 (defmacro defquery
   [name & decl]
