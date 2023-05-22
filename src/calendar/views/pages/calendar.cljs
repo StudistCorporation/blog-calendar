@@ -16,7 +16,7 @@
   (css {:background "#1d2021"
         :border-top "1px solid rgba(140, 130, 115, 0.12)"
         :border-bottom "1px solid rgba(140, 130, 115, 0.12)"
-        :margin "80px 0 15px 0" ;;dummy top margin until global header
+        :margin-bottom "15px"
         :padding "15px 0"
         :text-align "left"
         :width "100%"}))

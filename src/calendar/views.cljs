@@ -4,6 +4,7 @@
             [calendar.subs :as subs]
             [calendar.views.atoms.git-link :as git-link]
             [calendar.views.organisms.dialog :as dialog]
+            [calendar.views.organisms.header :as header]
             [calendar.views.pages.not-found :as not-found]))
 
 (def $main
@@ -22,6 +23,7 @@
         opts {:params (:parameters route)}]
     [:div
      {:class [$main]}
+     [header/view]
      (if route
        [(-> route :data :view) opts]
        [not-found/view opts])
