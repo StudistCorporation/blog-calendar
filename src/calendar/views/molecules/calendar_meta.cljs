@@ -1,14 +1,8 @@
 (ns calendar.views.molecules.calendar-meta
   (:require [re-frame.core :as rf]
             [shadow.css :refer [css]]
-            [calendar.subs :as subs]))
-
-(def $icon
-  (css {:border-radius "0.7em"
-        :display "inline"
-        :height "1.4em"
-        :margin "0 0.5em"
-        :vertical-align "top"}))
+            [calendar.subs :as subs]
+            [calendar.views.atoms.user-icon :as user-icon]))
 
 (defn view
   []
@@ -23,8 +17,6 @@
      [:p
       [:span
        "作成者"]
-      [:img
-       {:class [$icon]
-        :src (str "https://www.gravatar.com/avatar/" email-md5 "?d=retro")}]
+      [user-icon/view email-md5]
       [:span
        (str display-name)]])])
