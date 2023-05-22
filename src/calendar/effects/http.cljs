@@ -8,7 +8,7 @@
    (-> (js/fetch
         (str path)
         (clj->js (merge {:redirect :error
-                         :signal (js/AbortSignal.timeout 500)
+                         :signal (js/AbortSignal.timeout 1000)
                          :cache :reload
                          :credentials :omit}
                         opts)))
