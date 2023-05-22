@@ -13,7 +13,8 @@
 
 (def routes
   ["/"
-   #?(:clj {:get {:handler html/handler}})
+   #?(:clj {:get {:handler html/handler}}
+      :cljs {:controllers [{:start #(rf/dispatch [::events/refresh-authn])}]})
    [""
     {:name ::home
      #?@(:cljs [:view #'redirect/view])}]
