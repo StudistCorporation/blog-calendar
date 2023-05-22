@@ -56,8 +56,14 @@
             (try
               (let [start# (System/nanoTime)
                     sql-dsl# (do ~@body)
-                    text# (sql/format sql-dsl#)
-                    result# (next.jdbc/execute! datasource# text#)]
+                    text# (sql/format
+                           sql-dsl#
+                           {:checking :strict
+                            :quoted-snake true})
+                    result# (next.jdbc/execute!
+                             datasource#
+                             text#
+                             {:builder-fn as-kebab-maps})]
                 (log/debug (format "%.3fms" (/ (- (System/nanoTime) start#) 1000000.0))
                            (pr-str text#))
                 (if (= 1 (:limit sql-dsl#))

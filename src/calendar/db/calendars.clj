@@ -6,9 +6,9 @@
   {:select [:title :description :created-by :first-day :last-day]
    :from [:calendars]
    :where [:and
-           [:<= :public-day :current_date]
+           [:<= :public-day :current-date]
            [:or
             [:= :close-day nil]
-            [:>= :close-day :current_date]]]
+            [:>= :close-day :current-date]]]
    :order-by [[:id :desc]]
    :limit 1})
