@@ -72,6 +72,7 @@
       :max-length 1000
       :min-length 8
       :name "password"
+      :placeholder "••••••"
       :prefix [:> IconLock {}]
       :required true
       :type "password"}]
