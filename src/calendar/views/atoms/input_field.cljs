@@ -1,4 +1,4 @@
-(ns calendar.views.atoms.auth-field
+(ns calendar.views.atoms.input-field
   (:require [shadow.css :refer [css]]))
 
 (def $field

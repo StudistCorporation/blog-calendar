@@ -6,7 +6,7 @@
             [calendar.events.routing :as routing]
             [calendar.routes.web :as-alias web]
             [calendar.subs :as subs]
-            [calendar.views.atoms.auth-field :as auth-field]))
+            [calendar.views.atoms.input-field :as input-field]))
 
 (def $column
   (css {:display "flex"
@@ -58,7 +58,7 @@
                   (.preventDefault event)
                   (rf/dispatch [::events/login-submit event])
                   true)}
-    [auth-field/view
+    [input-field/view
      {:auto-complete "username"
       :max-length 200
       :min-length 5
@@ -67,7 +67,7 @@
       :prefix [:> IconMail {}]
       :required true
       :type "email"}]
-    [auth-field/view
+    [input-field/view
      {:auto-complete "current-password"
       :max-length 1000
       :min-length 8

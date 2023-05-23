@@ -2,7 +2,8 @@
   (:require [shadow.css :refer [css]]
             [re-frame.core :as rf]
             [calendar.events.dialog :as dialog]
-            [calendar.subs :as subs]))
+            [calendar.subs :as subs]
+            [calendar.views.atoms.input-field :as input-field]))
 
 (def $dialog
   (css {:background "#181a1b"
@@ -33,14 +34,6 @@
         :margin "0.5em 0"}
        [:focus
         {:outline "1px solid rgba(140, 130, 115, 0.7)"}]))
-
-(def $text-field
-  (css {:width "100%"}
-       ["&::placeholder"
-        {:color "rgba(140, 130, 115, 0.5)"}]
-       ["&:not(:focus:placeholder-shown):invalid"
-        {:background "#431a1b"
-         :border "1px solid #8b181a"}]))
 
 (def $actions
   (css {:display :flex
@@ -85,22 +78,18 @@
       [:form
        {:method "dialog"
         :id "form"}
-       [:input
-        {:class [$input $text-field]
-         :type :text
-         :required true
+       [input-field/view
+        {:required true
          :name "title"
          :placeholder "タイトル"
          :default-value title}]
-       [:input
-        {:class [$input $text-field]
-         :type :url
+       [input-field/view
+        {:type :url
          :name "post"
          :placeholder "投稿URL"
          :default-value post-url}]
-       [:input
-        {:class [$input $text-field]
-         :type :url
+       [input-field/view
+        {:type :url
          :name "calendar"
          :placeholder "カレンダーURL"
          :default-value calendar-url}]
