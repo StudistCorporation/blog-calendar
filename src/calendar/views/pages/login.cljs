@@ -3,6 +3,7 @@
             [shadow.css :refer [css]]
             ["@tabler/icons" :refer [IconMail IconLock]]
             [calendar.events :as events]
+            [calendar.events.routing :as routing]
             [calendar.routes.web :as-alias web]
             [calendar.subs :as subs]
             [calendar.views.atoms.auth-field :as auth-field]))
@@ -39,7 +40,7 @@
 (defn view
   []
   (when @(rf/subscribe [::subs/jwt])
-    (rf/dispatch [::events/navigate-to ::web/dashboard]))
+    (rf/dispatch [::routing/navigate-to ::web/dashboard]))
   [:div
    {:class [$column $login]}
    [:header

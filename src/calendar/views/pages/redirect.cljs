@@ -1,6 +1,6 @@
 (ns calendar.views.pages.redirect
   (:require [re-frame.core :as rf]
-            [calendar.events :as events]
+            [calendar.events.routing :as routing]
             [calendar.routes.web :as-alias web]
             [calendar.subs :as subs]))
 
@@ -8,7 +8,7 @@
   "どっちかにリダイレクトするだけ"
   [_]
   (if @(rf/subscribe [::subs/jwt])
-    (rf/dispatch [::events/navigate-to ::web/dashboard])
-    (rf/dispatch [::events/navigate-to ::web/calendar]))
+    (rf/dispatch [::routing/navigate-to ::web/dashboard])
+    (rf/dispatch [::routing/navigate-to ::web/calendar]))
   ;; とりあえずなにかダミーのビューを返す必要はある
   [:div])

@@ -4,6 +4,7 @@
             [reitit.frontend.easy :refer [href]]
             [calendar.effects :as fx]
             [calendar.events.http :as http]
+            [calendar.events.routing :as routing]
             [calendar.interop :refer [form->map]]
             [calendar.routes.api :as-alias api]
             [calendar.routes.web :as-alias web]))
@@ -13,21 +14,6 @@
  (fn [_]
    {:db {}
     :dispatch [::refresh-authn]}))
-
-(rf/reg-event-fx
- ::navigate-to
- (fn [_ [_ & route]]
-   {::fx/push-state route}))
-
-(rf/reg-event-db
- ::navigated
- (fn [db [_ new-match]]
-   (let [old-match (:current-route db)
-         controllers (router/apply-controllers
-                      (:controllers old-match)
-                      new-match)]
-     (assoc db :current-route
-            (assoc new-match :controllers controllers)))))
 
 (rf/reg-event-fx
  ::login-submit
@@ -45,7 +31,7 @@
  ::login-success
  (fn [{db :db} _]
    {:db (assoc db :login-state :success)
-    :dispatch [::navigate-to ::web/dashboard]}))
+    :dispatch [::routing/navigate-to ::web/dashboard]}))
 
 (rf/reg-event-db
  ::login-error
