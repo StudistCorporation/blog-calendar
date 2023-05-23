@@ -2,15 +2,12 @@
   (:require [re-frame.core :as rf]
             [shadow.css :refer [css]]
             [calendar.subs :as subs]
+            [calendar.views.atoms.message :as message]
             [calendar.views.molecules.calendar-meta :as calendar-meta]
             [calendar.views.organisms.calendar :as calendar]))
 
 (def $wrap
   (css {:margin "auto"}))
-
-(def $message
-  (css {:min-width "min-content"
-        :text-align "center"}))
 
 (def $header
   (css {:background "#1d2021"
@@ -38,13 +35,11 @@
         @(rf/subscribe [::subs/calendar])]
     (case calendar
       nil
-      [:p
-       {:class [$wrap $message]}
+      [message/view
        "読み込み中..."]
 
       {}
-      [:p
-       {:class [$wrap $message]}
+      [message/view
        "直近開催予定のカレンダーがありません。"
        [:br]
        "またきてください！"]
