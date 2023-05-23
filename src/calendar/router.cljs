@@ -4,7 +4,6 @@
             [reitit.core :refer [match-by-path]]
             [reitit.frontend]
             [reitit.frontend.easy :as easy]
-            [reitit.frontend.history :as history]
             [calendar.events.routing :as routing]
             [calendar.routes :refer [routes]]))
 
@@ -15,7 +14,7 @@
   [new-match]
   (if new-match
     (rf/dispatch [::routing/navigated new-match])
-    (let [[& path] (history/-get-path @easy/history)
+    (let [[& path] (.-pathname js/window.location)
           head (str/join "" (butlast path))]
       ;; if the current request path ends in a / and it's not just /
       (when (and (= (last path) "/")
