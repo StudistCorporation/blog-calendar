@@ -8,6 +8,11 @@
  (fn [_ [_ & route]]
    {::fx/push-state route}))
 
+(rf/reg-event-fx
+ ::teleport-to
+ (fn [_ [_ & route]]
+   {::fx/replace-state route}))
+
 (rf/reg-event-db
  ::navigated
  (fn [db [_ new-match]]
