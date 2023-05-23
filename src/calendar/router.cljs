@@ -12,18 +12,8 @@
 
 (defn on-navigate
   [new-match]
-  (if new-match
-    (rf/dispatch [::routing/navigated new-match])
-    (let [[& path] (.-pathname js/window.location)
-          head (str/join "" (butlast path))]
-      ;; if the current request path ends in a / and it's not just /
-      (when (and (= (last path) "/")
-                 (> (count head) 1))
-        ;; then check if there's a route defined without the trailing slash
-        (when-let [{{:keys [name]} :data}
-                   (match-by-path router head)]
-          ;; and "replace" location to that route if so
-          (rf/dispatch [::routing/teleport-to name]))))))
+  (when new-match
+    (rf/dispatch [::routing/navigated new-match])))
 
 (defn start-router
   "Used in the actual browser, using the browser's HTML5 History API"

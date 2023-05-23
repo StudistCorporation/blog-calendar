@@ -33,8 +33,8 @@
        coerce-request-middleware
        wrap-jwt]}})
    (ring/routes
+    (ring/redirect-trailing-slash-handler {:method :strip})
     (ring/create-resource-handler {:path "" :root ""})
     (ring/create-default-handler
      {:not-found (constantly {:status 404 :body html/file-body})
-      :method-not-allowed (constantly {:status 405 :body html/file-body})}))
-   {:inject-router? false}))
+      :method-not-allowed (constantly {:status 405 :body html/file-body})}))))
