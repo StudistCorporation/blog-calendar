@@ -7,7 +7,7 @@
         :display "flex"
         :flex-flow "row-reverse nowrap"
         :margin-bottom "10px"
-        :min-width "220px"}))
+        :width "300px"}))
 
 (def $label
   (css {:flex-grow "1"}
