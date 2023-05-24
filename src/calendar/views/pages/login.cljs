@@ -6,6 +6,7 @@
             [calendar.events.routing :as routing]
             [calendar.routes.web :as-alias web]
             [calendar.subs :as subs]
+            [calendar.views.atoms.button :as button]
             [calendar.views.atoms.input-field :as input-field]))
 
 (def $column
@@ -27,7 +28,8 @@
 
 (def $actions
   (css {:display :flex
-        :flex-flow "row no-wrap"}))
+        :flex-flow "row no-wrap"
+        :justify-content "flex-end"}))
 
 (def $button
   (css {:border "1px solid rgba(140, 130, 115, 0.12)"
@@ -78,7 +80,6 @@
       :type "password"}]
     [:div
      {:class [$actions]}
-     [:button
-      {:type "submit"
-       :class [$button]}
-      "ログイン"]]]])
+     [button/generic
+      {:label "ログイン"
+       :type "submit"}]]]])

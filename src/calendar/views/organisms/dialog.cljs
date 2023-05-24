@@ -3,6 +3,7 @@
             [re-frame.core :as rf]
             [calendar.events.dialog :as dialog]
             [calendar.subs :as subs]
+            [calendar.views.atoms.button :as button]
             [calendar.views.atoms.input-field :as input-field]))
 
 (def $dialog
@@ -25,41 +26,10 @@
         :margin-bottom "0.4em"
         :border-bottom "1px solid rgba(140, 130, 115, 0.12)"}))
 
-(def $input
-  (css {:background "#181a1b"
-        :color "#9c9c9b"
-        :border "1px solid rgba(140, 130, 115, 0.12)"
-        :box-sizing "border-box"
-        :padding "0.2em 0.5em"
-        :margin "0.5em 0"}
-       [:focus
-        {:outline "1px solid rgba(140, 130, 115, 0.7)"}]))
-
 (def $actions
   (css {:display :flex
-        :flex-flow "row no-wrap"}))
-
-(def $button
-  (css {:width "100px"
-        :margin-left "auto"}
-       [:hover
-        {:background "rgb(29, 32, 33)"}]))
-
-(def $delete
-  (css {:margin-left "1em"
-        :background "#431a1b"
-        :border "1px solid #8b181a"}
-       [:hover
-        {:background "#4d1e1f"}]))
-
-(def $submit
-  (css {:margin-left "1em"
-        :background "rgb(68, 158, 0)"
-        :border-color "rgb(85, 196, 0)"
-        :color "white"}
-       [:hover
-        {:background "rgb(56, 135, 0)"
-         :cursor "pointer"}]))
+        :flex-flow "row no-wrap"
+        :justify-content "flex-end"}))
 
 (defn view
   []
@@ -95,17 +65,12 @@
          :default-value calendar-url}]
        [:div
         {:class [$actions]}
-        [:button
-         {:type :reset
-          :class [$input $button]
-          :on-click #(rf/dispatch [::dialog/close])}
-         "戻る"]
-        [:button
-         {:type :reset
-          :class [$input $button $delete]
-          :on-click #(rf/dispatch [:calendar.events/clear-day day])}
-         "削除"]
-        [:button
-         {:type :submit
-          :class [$input $button $submit]}
-         "参加"]]]]]))
+        [button/generic
+         {:label "戻る"
+          :on-click #(rf/dispatch [::dialog/close])
+          :type :reset}]
+        [button/delete
+         {:label "削除"
+          :on-click #(rf/dispatch [:calendar.events/clear-day day])}]
+        [button/create
+         {:label "参加"}]]]]]))
